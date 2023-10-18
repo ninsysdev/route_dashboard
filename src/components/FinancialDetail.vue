@@ -26,22 +26,50 @@
                 <td>{{ data.iduser }} - {{ data.name }}</td>
                 <td>{{ data.paydate }}</td>
                 <td>{{ data.amount }}</td>
+                <td>{{ data.reference }}</td>
                 <td>{{ data.type }}</td>
+                <td><button @click="asignaData(data.id,data.name,data.reference)" class="btn btn-sm btn-outline-warning" data-bs-toggle="modal" data-bs-target="#registerPayModal"><i class="bi bi-pencil-fill"></i></button></td>
             </tr>
         </tbody>
     </table>
+    <!-- -->
+    <div class="modal fade" id="registerPayModal" tabindex="-1" aria-labelledby="registerPayModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">
+               <b>EDIT PAY REGISTER</b>
+            </div>
+            <div class="modal-body">
+                <div class="mb-2"><b>{{ dataEdit.name }}</b></div>  
+                <input v-model="dataEdit.reference" class="form-control mb-2" maxlength="20" placeholder="REFERENCE" type="text" name="reference" id="reference">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">CLOSE</button>
+                <button type="button" class="btn btn-primary" @click="editPay()">EDIT PAY</button>
+            </div>
+            </div>
+        </div>
+    </div>
 </template>
 <script setup>
-    import { defineProps,onMounted,ref } from 'vue'
+    import { defineProps,onMounted,ref,inject } from 'vue'
     import { useGlobalStore } from '../store/global';
     import FinancialDetailService from '../services/FinancialDetailService';
 
+    const swal = inject('$swal')
     const store = useGlobalStore()
     const financialdetail = new FinancialDetailService()
-    const financialdata = financialdetail.getFinancialData() 
+    const financialdata = financialdetail.getFinancialData()
+    const responseRec = financialdetail.getResponse() 
 
     const datoabuscar = ref('')
     const datosfiltrados = ref([])
+
+    const dataEdit = ref({
+        id : 0,
+        name : '',
+        reference : ''
+    })
 
     const props = defineProps({
         typequery : String,
@@ -61,5 +89,28 @@
 
     const filtrarData = ( ()=>{   
         datosfiltrados.value = financialdata.value.filter(el => el.name.toLowerCase().includes(datoabuscar.value.toLowerCase()))
+     })
+
+     const asignaData = ((id,name,reference)=>{
+        dataEdit.value.id = id
+        dataEdit.value.name = name
+        dataEdit.value.reference = reference
+     })
+
+     const editPay = ( async ()=>{ 
+        await financialdetail.fetchEditPay(store.urlPpal,store.headRequest(),dataEdit.value.id,dataEdit.value.reference)
+        if(props.typequery == 'all'){
+            await  financialdetail.fetchDetailAmountDate(store.urlPpal,store.headRequest(),props.dateinit,props.dateend)
+        }
+        else{
+            await  financialdetail.fetchDetailNewUsersDate(store.urlPpal,store.headRequest(),props.dateinit,props.dateend)
+        }
+        datosfiltrados.value = financialdata.value
+        await swal.fire({
+            icon: responseRec.value.colormen,
+            title: responseRec.value.message,
+            showConfirmButton: false,
+            timer: 1500
+        })
      })
 </script>

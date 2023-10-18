@@ -4,10 +4,15 @@ class FinancialDetailService {
      
     constructor(){
         this.records = ref([])
+        this.response = ref([])
     }
 
     getFinancialData(){
         return this.records
+    }
+
+    getResponse(){
+        return this.response
     }
 
     async fetchDetailAmountDate(urlPpal,headerdata,dateinit,dateend){
@@ -43,6 +48,26 @@ class FinancialDetailService {
 
             const response = await res.json()
             this.records.value = await response
+
+        }
+        catch(error){
+            console.log(error)
+        }
+    }
+
+    async fetchEditPay(urlPpal,headerdata,id,reference){
+        try{
+            const res = await fetch(urlPpal+'routeeditpay',{
+                method : 'POST',
+                headers : headerdata.headers,
+                body : JSON.stringify({
+                    id : id,
+                    reference : reference
+                })
+            })
+
+            const response = await res.json()
+            this.response.value = await response
 
         }
         catch(error){

@@ -54,6 +54,14 @@ const routes = [
       requireAuth : true
     }
   },
+  {
+    path: '/weekstatitics',
+    name: 'weekstatitics',
+    component: () => import(/* webpackChunkName: "weekstatitics" */ '../views/WeekStatiticsView.vue'),
+    meta : {
+      requireAuth : true
+    }
+  },
 ];
 
 const history = createWebHistory();

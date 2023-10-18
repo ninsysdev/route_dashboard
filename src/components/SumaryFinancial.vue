@@ -12,7 +12,8 @@
                     <router-link :to="'/financialdetail/all/'+dateinit+'/'+dateend" type="button" class="btn btn-warning"> TOTAL USERS PAY: {{ sumAmount.usertot }}<br> TOTAL COLLECTION: {{ sumAmount.amounttot }}</router-link>
                     <router-link :to="'/financialdetail/new/'+dateinit+'/'+dateend" type="button" class="btn btn-warning"> NEW USERS : {{ sumCount.usertot }}<br> TOTAL COLLECTION:  {{ sumCount.amounttot }}</router-link>
                     <hr>
-                    <button class="btn btn-primary" style="color: black;" @click="saveStatitics">SAVE WEEK STATITICS</button>
+                    <router-link :to="{name : 'weekstatitics'  }" class="btn btn-info">WEEK STATITICS</router-link>
+                    <button v-if="store.applicant" class="btn btn-primary" style="color: black;" @click="saveStatitics">SAVE WEEK STATITICS</button>
                   </div>
                 </div>
               </div>

@@ -101,11 +101,13 @@
                     <option value="PROMO">PROMO</option>
                 </select>
                 <select class="form-select mb-2" name="weeks" id="weeks" v-model="dataEdit.weeks">
+                    <option value="0"> - </option>
                     <option value="1">1 WEEK</option>
                     <option value="2">2 WEEK</option>
                     <option value="3">3 WEEK</option>
                     <option value="4">4 WEEK</option>
                 </select>
+                <input v-model="dataEdit.reference" class="form-control mb-2" maxlength="20" placeholder="REFERENCE" type="text" name="reference" id="reference">
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">CLOSE</button>
@@ -147,7 +149,8 @@
         pass : '',
         amount : 0,
         paytype : 'ZELLE',
-        weeks : 1
+        weeks : 0,
+        reference : ''
     })
 
     onMounted( async () => {
@@ -191,22 +194,32 @@
      })
 
      const newPay = ( async ()=>{
-        if(dataEdit.value.amount<17){
+        if(dataEdit.value.amount<17 && dataEdit.value.paytype != 'PROMO'){
             swal.fire({
                 icon: 'error',
                 title: 'AMOUNT ERROR',
             })
         }
         else{
-            await editRegister.fetchNewPayData(store.urlPpal,store.headRequest(),dataEdit.value)
-            await usersData.fetchAllUsers(store.urlPpal,store.headRequest(),props.typequery)
-            filtrarData()        
-            await swal.fire({
-                icon: responseRec.value.colormen,
-                title: responseRec.value.message,
-                showConfirmButton: false,
-                timer: 1500
-            })
+            if(dataEdit.value.weeks == 0){
+                swal.fire({
+                    icon: 'error',
+                    title: 'WEEKS ERROR',
+                })  
+            }
+            else{
+                await editRegister.fetchNewPayData(store.urlPpal,store.headRequest(),dataEdit.value)
+                await usersData.fetchAllUsers(store.urlPpal,store.headRequest(),props.typequery)
+                filtrarData()
+                dataEdit.value.weeks = 0
+                dataEdit.value.amount = 0        
+                await swal.fire({
+                    icon: responseRec.value.colormen,
+                    title: responseRec.value.message,
+                    showConfirmButton: false,
+                    timer: 1500
+                })
+            }
         }
      })
 </script>

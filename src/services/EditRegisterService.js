@@ -61,7 +61,8 @@ class EditRegisterService {
                     id : userData.id,
                     amount : userData.amount,
                     paytype : userData.paytype,
-                    weeks : userData.weeks
+                    weeks : userData.weeks,
+                    reference : userData.reference
                 })
             })
 

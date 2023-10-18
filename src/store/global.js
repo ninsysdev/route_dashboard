@@ -11,8 +11,8 @@ export const useGlobalStore = defineStore('storePpal',{
             } 
         }
         return {
-            dev : 'http://localhost:8081/apirouteoverview/public/api/',
-            urlPpal : 'https://www.nincostaapi.smartphonexone.com/api/',
+            urlPpal : 'http://localhost:8081/apirouteoverview/public/api/',
+            onLine : 'https://www.nincostaapi.smartphonexone.com/api/',
             applicant : aplica
         }
     },
