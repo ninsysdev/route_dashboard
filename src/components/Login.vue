@@ -44,7 +44,7 @@
 
     const authUser = async () =>{
         const auth = new AuthService()
-        const success = await auth.login(store.urlPpal,email.value,password.value)
+        const success = await auth.login(store.new_url,email.value,password.value)
         if(success){
             await swal('Login success')
             await router.push('/')

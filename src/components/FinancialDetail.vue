@@ -22,7 +22,10 @@
     <table class="table table-dark">
         <tbody>
             <tr v-for="data in datosfiltrados" :key="data.id">
-                <td><img :src="'https://costa.smartphonexone.com/img/users/'+data.picture+'.jpg'" alt="..." style="width: 40px"></td>
+                <!--  https://costa.smartphonexone.com/img/users/  -->
+                <!--  https://flexapp.servicevzla.com/img/users/  -->
+                <!-- https://routeoverview.servicevzla.es/img/users/ -->
+                <td><img :src="'https://routeoverview.servicevzla.es/img/users/'+data.picture+'.jpg'" alt="..." style="width: 40px"></td>
                 <td>{{ data.iduser }} - {{ data.name }}</td>
                 <td>{{ data.paydate }}</td>
                 <td>{{ data.amount }}</td>
@@ -79,10 +82,10 @@
 
     onMounted( async ()=>{
         if(props.typequery == 'all'){
-            await  financialdetail.fetchDetailAmountDate(store.urlPpal,store.headRequest(),props.dateinit,props.dateend)
+            await  financialdetail.fetchDetailAmountDate(store.new_url,store.headRequest(),props.dateinit,props.dateend)
         }
         else{
-            await  financialdetail.fetchDetailNewUsersDate(store.urlPpal,store.headRequest(),props.dateinit,props.dateend)
+            await  financialdetail.fetchDetailNewUsersDate(store.new_url,store.headRequest(),props.dateinit,props.dateend)
         }
         datosfiltrados.value = financialdata.value
     })
@@ -98,12 +101,12 @@
      })
 
      const editPay = ( async ()=>{ 
-        await financialdetail.fetchEditPay(store.urlPpal,store.headRequest(),dataEdit.value.id,dataEdit.value.reference)
+        await financialdetail.fetchEditPay(store.new_url,store.headRequest(),dataEdit.value.id,dataEdit.value.reference)
         if(props.typequery == 'all'){
-            await  financialdetail.fetchDetailAmountDate(store.urlPpal,store.headRequest(),props.dateinit,props.dateend)
+            await  financialdetail.fetchDetailAmountDate(store.new_url,store.headRequest(),props.dateinit,props.dateend)
         }
         else{
-            await  financialdetail.fetchDetailNewUsersDate(store.urlPpal,store.headRequest(),props.dateinit,props.dateend)
+            await  financialdetail.fetchDetailNewUsersDate(store.new_url,store.headRequest(),props.dateinit,props.dateend)
         }
         datosfiltrados.value = financialdata.value
         await swal.fire({

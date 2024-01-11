@@ -70,6 +70,6 @@
     })
 
     const updateStatitics = ( async ()=>{
-        await weekstatitics.fetchWeekStatitics(store.urlPpal,store.headRequest(),dateinit.value,dateend.value)
+        await weekstatitics.fetchWeekStatitics(store.new_url,store.headRequest(),dateinit.value,dateend.value)
     })
 </script>

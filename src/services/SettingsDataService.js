@@ -6,6 +6,7 @@ class SettingsDataService {
         this.record = ref([])
         this.mountrecords = ref({})
         this.countrecords = ref({})
+        this.mountbyday = ref({})
     }
 
     getSetiingsData(){
@@ -18,6 +19,10 @@ class SettingsDataService {
 
     getCountRec(){
         return this.countrecords
+    }
+
+    getAmountByDay(){
+        return this.mountbyday
     }
 
     async fetchSettingsData(urlPpal,headerdata){
@@ -44,6 +49,25 @@ class SettingsDataService {
                 body : JSON.stringify({
                     dateinit : dateinit,
                     dateend : dateend
+                })
+            })
+
+            const response = await res.json()
+            //this.edirresponse.value = await response
+
+        }
+        catch(error){
+            console.log(error)
+        }
+    }
+
+    async fetchSettingsEditDatePay(urlPpal,headerdata,datepay){
+        try{
+            const res = await fetch(urlPpal+'settingseditdatepay',{
+                method : 'POST',
+                headers : headerdata.headers,
+                body : JSON.stringify({
+                    datepay : datepay
                 })
             })
 
@@ -113,6 +137,26 @@ class SettingsDataService {
 
             const response = await res.json()
             return response
+        }
+        catch(error){
+            console.log(error)
+        }
+    }
+
+    async sumaryAmountByDay(urlPpal,headerdata,dateinit,dateend){
+        try{
+            const res = await fetch(urlPpal+'sumaryamountdate',{
+                method : 'POST',
+                headers : headerdata.headers,
+                body : JSON.stringify({
+                    dateinit : dateinit,
+                    dateend : dateend
+                })
+            })
+
+            const response = await res.json()
+            this.mountbyday.value = await response
+
         }
         catch(error){
             console.log(error)

@@ -11,8 +11,11 @@ export const useGlobalStore = defineStore('storePpal',{
             } 
         }
         return {
-            urlPpal : 'http://localhost:8081/apirouteoverview/public/api/',
-            onLine : 'https://www.nincostaapi.smartphonexone.com/api/',
+            dev : 'http://localhost:8081/apirouteoverview/public/api/',
+            new_url : 'https://servicerouteoverview.servicevzla.es/api/',
+            res_url : 'https://www.nincostaapi.smartphonexone.com/api/',
+            old_url : 'https://apirouteoverview.servicevzla.com/api/',
+            pic_url : 'https://routeoverview.servicevzla.es/img/users/',
             applicant : aplica
         }
     },

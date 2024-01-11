@@ -53,7 +53,7 @@
   const password = ref('')
 
   const newUserRegister = ( async ()=>{
-    await userregister.fetchRegisterUser(store.urlPpal,store.pictureHeadRequest(),firstname.value,lastname.value,email.value,picture.value,password.value)
+    await userregister.fetchRegisterUser(store.new_url,store.pictureHeadRequest(),firstname.value,lastname.value,email.value,picture.value,password.value)
     await swal.fire({
         icon: responseRec.value.colormen,
         title: responseRec.value.message,

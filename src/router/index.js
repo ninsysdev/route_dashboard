@@ -62,6 +62,14 @@ const routes = [
       requireAuth : true
     }
   },
+  {
+    path: '/mapsregister',
+    name: 'mapsregister',
+    component: () => import(/* webpackChunkName: "mapsregister" */ '../views/MapsView.vue'),
+    meta : {
+      requireAuth : true
+    }
+  },
 ];
 
 const history = createWebHistory();

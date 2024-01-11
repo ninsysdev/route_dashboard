@@ -55,12 +55,12 @@
     const sweeptpro = sweepingPro.getProcessResponse()
 
     onMounted( async ()=>{
-        await summaryRenew.fetchSummary(store.urlPpal,store.headRequest())
+        await summaryRenew.fetchSummary(store.new_url,store.headRequest())
         dataSum.value = sumary.value[0] 
     })
 
     const runSweepingPro = ( async ()=>{
-        await sweepingPro.fetchSweepingProcess(store.urlPpal,store.headRequest())
+        await sweepingPro.fetchSweepingProcess(store.new_url,store.headRequest())
         console.log(sweeptpro.value)
         swal.fire({
                 icon: sweeptpro.value.colormen,

@@ -12,7 +12,7 @@
     const returnto = ref('')
 
     onBeforeMount(()=>{
-        store.authDeprecated(store.urlPpal,store.headRequest())
+        store.authDeprecated(store.new_url,store.headRequest())
         const route = useRoute() 
         typequery.value = route.params.typequery
         returnto.value = route.params.returnto

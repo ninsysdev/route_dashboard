@@ -7,7 +7,6 @@
             <SumaryFinancial/>
         </div>
     </div>
-    
 </template>
 <script setup>
     import SumaryUsers from '../components/SumaryUsers.vue';

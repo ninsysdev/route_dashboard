@@ -5,7 +5,7 @@
                 <router-link :to="{ name : returnto }" class="btn btn-warning" ><i class="bi bi-caret-left-fill"></i></router-link>
             </div>
             <div class="col-8">
-                <input v-model="datoabuscar" type="text" class="form-control" placeholder="SEARCH" @keyup="filtrarData()">
+                <input v-model="datoabuscar" type="text" class="form-control" placeholder="SEARCH" @keyup="filtrarData()" @keydown="filtrarData()" >
             </div>
             <div class="col-2">
                 <download-excel
@@ -22,9 +22,25 @@
     <table class="table table-dark">
         <tbody>
             <tr v-for="user in datosfiltrados" :key="user.id">
-                <td v-if="store.applicant" ><img :src="'https://costa.smartphonexone.com/img/users/'+user.picture+'.jpg'" alt="..." style="width: 60px;border-radius: 50%;" data-bs-toggle="modal" data-bs-target="#editUserModal" 
-                    @click="asignaData(user.id,user.firstname,user.lastname,user.email,user.picture,user.isactive)"></td>
-                <td v-else ><img :src="'https://costa.smartphonexone.com/img/users/'+user.picture+'.jpg'" alt="..." style="width: 60px;border-radius: 50%;"></td>
+                <!--  https://costa.smartphonexone.com/img/users/  -->
+                <!--  https://flexapp.servicevzla.com/img/users/  -->
+                <!--  https://routeoverview.servicevzla.es/img/users/ -->
+                <td v-if="store.applicant" >
+                    <img :src="'https://routeoverview.servicevzla.es/img/users/'+user.picture+'.jpg'" 
+                    alt="..." 
+                    style="width: 60px;border-radius: 50%;" 
+                    data-bs-toggle="modal" 
+                    data-bs-target="#editUserModal" 
+                    @click="asignaData(user.id,user.firstname,user.lastname,user.email,user.picture,user.isactive)">
+                </td>
+                <td v-else >
+                    <img :src="'https://routeoverview.servicevzla.es/img/users/'+user.picture+'.jpg'"
+                    alt="..." 
+                    style="width: 60px;border-radius: 50%;"
+                    data-bs-toggle="modal"
+                    data-bs-target="#editAdminUserModal"
+                    @click="asignaData(user.id,user.firstname,user.lastname,user.email,user.picture,user.isactive)">
+                </td>
                 <td style="font-size: small;">{{ user.firstname }} {{ user.lastname }} <br> 
                     {{ user.email }} <br>
                     <small>
@@ -35,8 +51,12 @@
                     <i v-if="user.isactive>4" > Admin - </i> 
                     <i v-if="user.isactive==2" > Ally - </i>
                     <i v-if="user.isactive<0" > Locked - </i>
-                    <i> Paid {{ user.payment }} Week - </i>
+                    <i v-if="user.payment==1"> Paid {{ user.payment }} Day - </i><i v-else> Paid {{ user.payment }} Days - </i>
                     <i v-if="store.applicant" class="bi bi-key-fill" data-bs-toggle="modal" data-bs-target="#sendDataModal" @click="asignaData(user.id,user.firstname,user.lastname,user.email,user.picture,user.isactive)"></i>
+                    </small>
+                    <br>
+                    <small style="color: greenyellow;">
+                        Last Pay: {{ user.amount }} - {{ user.lastpay }}
                     </small>
                 </td>
                 <td v-if="store.applicant" ><button class="btn btn-outline-warning btn-sm" data-bs-toggle="modal" data-bs-target="#registerPayModal" @click="asignaData(user.id,user.firstname,user.lastname,user.email,user.picture,user.isactive)">Pay</button></td>
@@ -47,8 +67,9 @@
     <div class="modal fade" id="editUserModal" tabindex="-1" aria-labelledby="editUserModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-            <div class="modal-header">
-                <img :src="'https://costa.smartphonexone.com/img/users/'+dataEdit.picture+'.jpg'" alt="..." style="width: 200px;border-radius: 50%;">
+            <div class="modal-header">                            
+                <img :src="'https://routeoverview.servicevzla.es/img/users/'+dataEdit.picture+'.jpg'" alt="..." style="width: 333px;border-radius: 50%;">
+                <!-- img :src="'https://flexapp.servicevzla.com/img/users/'+dataEdit.picture+'.jpg'" alt="..." style="width: 333px;border-radius: 50%;" -->
             </div>
             <div class="modal-body">
                 <input type="text" class="form-control mb-2" v-model="dataEdit.firstname">
@@ -102,10 +123,27 @@
                 </select>
                 <select class="form-select mb-2" name="weeks" id="weeks" v-model="dataEdit.weeks">
                     <option value="0"> - </option>
-                    <option value="1">1 WEEK</option>
-                    <option value="2">2 WEEK</option>
-                    <option value="3">3 WEEK</option>
-                    <option value="4">4 WEEK</option>
+                    <option value="1">1 DAY</option>
+                    <option value="2">2 DAYS</option>
+                    <option value="3">3 DAYS</option>
+                    <option value="4">4 DAYS</option>
+                    <option value="5">5 DAYS</option>
+                    <option value="6">6 DAYS</option>
+                    <option value="7">7 DAYS</option>
+                    <option value="8">8 DAYS</option>
+                    <option value="9">9 DAYS</option>
+                    <option value="10">10 DAYS</option>
+                    <option value="11">11 DAYS</option>
+                    <option value="12">12 DAYS</option>
+                    <option value="13">13 DAYS</option>
+                    <option value="14">14 DAYS</option>
+                    <option value="15">15 DAYS</option>
+                    <option value="16">16 DAYS</option>
+                    <option value="17">17 DAYS</option>
+                    <option value="18">18 DAYS</option>
+                    <option value="19">19 DAYS</option>
+                    <option value="20">20 DAYS</option>
+                    <option value="21">21 DAYS</option>
                 </select>
                 <input v-model="dataEdit.reference" class="form-control mb-2" maxlength="20" placeholder="REFERENCE" type="text" name="reference" id="reference">
             </div>
@@ -116,6 +154,30 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="editAdminUserModal" tabindex="-1" aria-labelledby="editAdminUserModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">                            
+                <img :src="'https://routeoverview.servicevzla.es/img/users/'+dataEdit.picture+'.jpg'" alt="..." style="width: 333px;border-radius: 50%;">
+                <!-- img :src="'https://flexapp.servicevzla.com/img/users/'+dataEdit.picture+'.jpg'" alt="..." style="width: 333px;border-radius: 50%;" -->
+            </div>
+            <div class="modal-body">
+                <input type="text" class="form-control mb-2" v-model="dataEdit.firstname" disabled>
+                <input type="text" class="form-control mb-2" v-model="dataEdit.lastname" disabled>
+                <input type="text" class="form-control mb-2" v-model="dataEdit.email" disabled>
+                <select name="isactive" id="isactive" v-model="dataEdit.isactive" class="form-select" >
+                    <option value="0">InActive</option>
+                    <option value="1">Active</option>
+                </select>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" @click="editData()">Save changes</button>
+            </div>
+            </div>
+        </div>
+    </div>
+    <!-- -->
 </template>
 <script setup>
     import { onMounted,defineProps,ref,inject } from 'vue'
@@ -154,7 +216,7 @@
     })
 
     onMounted( async () => {
-        await usersData.fetchAllUsers(store.urlPpal,store.headRequest(),props.typequery)
+        await usersData.fetchAllUsers(store.new_url,store.headRequest(),props.typequery)
         datosfiltrados.value = users.value
     })
 
@@ -172,8 +234,8 @@
      })
 
      const editData = ( async ()=>{
-        await editRegister.fetchRegisterEditUser(store.urlPpal,store.headRequest(),dataEdit.value)
-        await usersData.fetchAllUsers(store.urlPpal,store.headRequest(),props.typequery)
+        await editRegister.fetchRegisterEditUser(store.new_url,store.headRequest(),dataEdit.value)
+        await usersData.fetchAllUsers(store.new_url,store.headRequest(),props.typequery)
         filtrarData()
         await swal.fire({
             icon: responseRec.value.colormen,
@@ -184,7 +246,7 @@
      })
 
      const sendData = ( async ()=>{
-        await editRegister.fetchRegisterSendData(store.urlPpal,store.headRequest(),dataEdit.value)
+        await editRegister.fetchRegisterSendData(store.new_url,store.headRequest(),dataEdit.value)
         await swal.fire({
             icon: responseRec.value.colormen,
             title: responseRec.value.message,
@@ -194,7 +256,7 @@
      })
 
      const newPay = ( async ()=>{
-        if(dataEdit.value.amount<17 && dataEdit.value.paytype != 'PROMO'){
+        if(dataEdit.value.amount<5 && dataEdit.value.paytype != 'PROMO'){
             swal.fire({
                 icon: 'error',
                 title: 'AMOUNT ERROR',
@@ -208,8 +270,8 @@
                 })  
             }
             else{
-                await editRegister.fetchNewPayData(store.urlPpal,store.headRequest(),dataEdit.value)
-                await usersData.fetchAllUsers(store.urlPpal,store.headRequest(),props.typequery)
+                await editRegister.fetchNewPayData(store.new_url,store.headRequest(),dataEdit.value)
+                await usersData.fetchAllUsers(store.new_url,store.headRequest(),props.typequery)
                 filtrarData()
                 dataEdit.value.weeks = 0
                 dataEdit.value.amount = 0        
